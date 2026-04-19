@@ -1,0 +1,11 @@
+/home/jakub/repositories/githubproxy/src/main/java/com/wardzionn/githubproxy/controller/ProxyController.java
+/home/jakub/repositories/githubproxy/src/main/java/com/wardzionn/githubproxy/model/BaseEntity.java
+/home/jakub/repositories/githubproxy/src/main/java/com/wardzionn/githubproxy/mapper/RepoDetailsMapper.java
+/home/jakub/repositories/githubproxy/src/main/java/com/wardzionn/githubproxy/mapper/GithubResponseMapper.java
+/home/jakub/repositories/githubproxy/src/main/java/com/wardzionn/githubproxy/GithubproxyApplication.java
+/home/jakub/repositories/githubproxy/src/main/java/com/wardzionn/githubproxy/dto/RepoDetailsDto.java
+/home/jakub/repositories/githubproxy/src/main/java/com/wardzionn/githubproxy/service/ProxyService.java
+/home/jakub/repositories/githubproxy/src/main/java/com/wardzionn/githubproxy/model/RepoDetails.java
+/home/jakub/repositories/githubproxy/src/main/java/com/wardzionn/githubproxy/dto/GithubResponseDto.java
+/home/jakub/repositories/githubproxy/src/main/java/com/wardzionn/githubproxy/repository/ProxyRepository.java
+/home/jakub/repositories/githubproxy/src/main/java/com/wardzionn/githubproxy/client/GithubClient.java
