@@ -17,9 +17,9 @@ public class DoctorService {
     private final DoctorClient doctorClient;
     private final DoctorDtoMapper doctorDtoMapper;
 
-    public PageDto<DoctorDto> getDoctors(String specialization) {
-        log.info("Requesting doctors with specialization '{}'", specialization);
-        PageDto<DoctorResponseDto> doctorsPage = doctorClient.getDoctors(specialization);
+    public PageDto<DoctorDto> getDoctors(String specialization, Integer page, Integer size) {
+        log.info("Requesting doctors with specialization '{}' [page={}, size={}]", specialization, page, size);
+        PageDto<DoctorResponseDto> doctorsPage = doctorClient.getDoctors(specialization, page, size);
         return doctorDtoMapper.toDoctorPage(doctorsPage);
     }
 }

@@ -18,17 +18,23 @@ public class VisitController {
 
     @GetMapping("/patient/{patientId}")
     @ResponseStatus(HttpStatus.OK)
-    public PageDto<VisitDto> getPatientVisits(@PathVariable("patientId") Long patientId) {
-        return visitService.getPatientVisits(patientId);
+    public PageDto<VisitDto> getPatientVisits(
+            @PathVariable("patientId") Long patientId,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "size", required = false) Integer size
+    ) {
+        return visitService.getPatientVisits(patientId, page, size);
     }
 
     @GetMapping("/doctor/{doctorId}")
     @ResponseStatus(HttpStatus.OK)
     public PageDto<VisitDto> getDoctorVisits(
             @PathVariable("doctorId") Long doctorId,
-            @RequestParam(value = "freeOnly", required = false) Boolean freeOnly
+            @RequestParam(value = "freeOnly", required = false) Boolean freeOnly,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "size", required = false) Integer size
     ) {
-        return visitService.getDoctorVisits(doctorId, freeOnly);
+        return visitService.getDoctorVisits(doctorId, freeOnly, page, size);
     }
 
     @GetMapping
@@ -37,9 +43,11 @@ public class VisitController {
             @RequestParam(value = "specialization", required = false) String specialization,
             @RequestParam(value = "from", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
             @RequestParam(value = "to", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to,
-            @RequestParam(value = "freeOnly", required = false) Boolean freeOnly
+            @RequestParam(value = "freeOnly", required = false) Boolean freeOnly,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "size", required = false) Integer size
     ) {
-        return visitService.searchVisits(specialization, from, to, freeOnly);
+        return visitService.searchVisits(specialization, from, to, freeOnly, page, size);
     }
 
     @PatchMapping("/{id}")
@@ -53,7 +61,7 @@ public class VisitController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public PageDto<VisitDto> cancelVisit(@PathVariable("id") Long visitId) {
-        return visitService.cancelVisit(visitId);
+    public void cancelVisit(@PathVariable("id") Long visitId) {
+        visitService.cancelVisit(visitId);
     }
 }

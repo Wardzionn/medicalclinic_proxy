@@ -19,7 +19,11 @@ public class DoctorController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public PageDto<DoctorDto> getDoctors(@RequestParam(value = "specialization", required = false) String specialization) {
-        return doctorService.getDoctors(specialization);
+    public PageDto<DoctorDto> getDoctors(
+            @RequestParam(value = "specialization", required = false) String specialization,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "size", required = false) Integer size
+    ) {
+        return doctorService.getDoctors(specialization, page, size);
     }
 }

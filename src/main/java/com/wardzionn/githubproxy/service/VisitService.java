@@ -17,23 +17,25 @@ public class VisitService {
 
     private final VisitClient visitClient;
 
-    public PageDto<VisitDto> getPatientVisits(Long patientId) {
-        log.info("Fetching visits for patient {}", patientId);
-        return visitClient.getVisits(VisitSearchCriteria.forPatient(patientId));
+    public PageDto<VisitDto> getPatientVisits(Long patientId, Integer page, Integer size) {
+        log.info("Fetching visits for patient {} [page={}, size={}]", patientId, page, size);
+        return visitClient.getVisits(VisitSearchCriteria.forPatient(patientId, page, size));
     }
 
-    public PageDto<VisitDto> getDoctorVisits(Long doctorId, Boolean freeOnly) {
-        log.info("Fetching visits for doctor {} [freeOnly={}]", doctorId, freeOnly);
-        return visitClient.getVisits(VisitSearchCriteria.forDoctor(doctorId, freeOnly));
+    public PageDto<VisitDto> getDoctorVisits(Long doctorId, Boolean freeOnly, Integer page, Integer size) {
+        log.info("Fetching visits for doctor {} [freeOnly={}, page={}, size={}]", doctorId, freeOnly, page, size);
+        return visitClient.getVisits(VisitSearchCriteria.forDoctor(doctorId, freeOnly, page, size));
     }
 
     public PageDto<VisitDto> searchVisits(
             String specialization,
             LocalDateTime from,
             LocalDateTime to,
-            Boolean freeOnly
+            Boolean freeOnly,
+            Integer page,
+            Integer size
     ) {
-        VisitSearchCriteria criteria = VisitSearchCriteria.search(specialization, from, to, freeOnly);
+        VisitSearchCriteria criteria = VisitSearchCriteria.search(specialization, from, to, freeOnly, page, size);
         log.info("Searching visits {}", criteria);
         return visitClient.getVisits(criteria);
     }
@@ -43,8 +45,8 @@ public class VisitService {
         return visitClient.bookVisit(visitId, patientId);
     }
 
-    public PageDto<VisitDto> cancelVisit(Long visitId) {
+    public void cancelVisit(Long visitId) {
         log.info("Cancelling visit {}", visitId);
-        return visitClient.cancelVisit(visitId);
+        visitClient.cancelVisit(visitId);
     }
 }

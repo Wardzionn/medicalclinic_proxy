@@ -18,5 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface DoctorClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/doctors", produces = "application/json")
-    PageDto<DoctorResponseDto> getDoctors(@RequestParam(value = "specialization", required = false) String specialization);
+    PageDto<DoctorResponseDto> getDoctors(
+            @RequestParam(value = "specialization", required = false) String specialization,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "size", required = false) Integer size
+    );
 }

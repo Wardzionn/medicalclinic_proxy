@@ -59,7 +59,7 @@ class DoctorClientTest {
         stubFor(get(urlPathEqualTo("/doctors"))
                 .willReturn(okJson(body)));
 
-        PageDto<DoctorResponseDto> result = doctorClient.getDoctors("CARDIOLOGY");
+        PageDto<DoctorResponseDto> result = doctorClient.getDoctors("CARDIOLOGY", null, null);
 
         assertThat(result).isNotNull();
         assertThat(result.getTotalElements()).isEqualTo(1L);
@@ -97,7 +97,7 @@ class DoctorClientTest {
                         .withHeader("Content-Type", "application/json")
                         .withBody(body)));
 
-        PageDto<DoctorResponseDto> result = doctorClient.getDoctors(null);
+        PageDto<DoctorResponseDto> result = doctorClient.getDoctors(null, null, null);
 
         assertThat(result).isNotNull();
         assertThat(result.getContent()).isEmpty();
@@ -109,7 +109,7 @@ class DoctorClientTest {
         stubFor(get(urlPathEqualTo("/doctors"))
                 .willReturn(aResponse().withStatus(404)));
 
-        PageDto<DoctorResponseDto> result = doctorClient.getDoctors("UNKNOWN");
+        PageDto<DoctorResponseDto> result = doctorClient.getDoctors("UNKNOWN", null, null);
 
         assertThat(result).isNull();
         verify(1, getRequestedFor(urlPathEqualTo("/doctors")));
@@ -120,7 +120,7 @@ class DoctorClientTest {
         stubFor(get(urlPathEqualTo("/doctors"))
                 .willReturn(aResponse().withStatus(503)));
 
-        PageDto<DoctorResponseDto> result = doctorClient.getDoctors("CARDIOLOGY");
+        PageDto<DoctorResponseDto> result = doctorClient.getDoctors("CARDIOLOGY", null, null);
 
         assertThat(result).isNull();
         verify(3, getRequestedFor(urlPathEqualTo("/doctors")));

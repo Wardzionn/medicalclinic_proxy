@@ -26,16 +26,23 @@ public class VisitSearchCriteria {
 
     private final Boolean freeOnly;
 
-    public static VisitSearchCriteria forPatient(Long patientId) {
+    private final Integer page;
+    private final Integer size;
+
+    public static VisitSearchCriteria forPatient(Long patientId, Integer page, Integer size) {
         return VisitSearchCriteria.builder()
                 .patientId(patientId)
+                .page(page)
+                .size(size)
                 .build();
     }
 
-    public static VisitSearchCriteria forDoctor(Long doctorId, Boolean freeOnly) {
+    public static VisitSearchCriteria forDoctor(Long doctorId, Boolean freeOnly, Integer page, Integer size) {
         return VisitSearchCriteria.builder()
                 .doctorId(doctorId)
                 .freeOnly(freeOnly)
+                .page(page)
+                .size(size)
                 .build();
     }
 
@@ -43,7 +50,9 @@ public class VisitSearchCriteria {
             String specialization,
             LocalDateTime from,
             LocalDateTime to,
-            Boolean freeOnly
+            Boolean freeOnly,
+            Integer page,
+            Integer size
     ) {
         if (from != null && to != null && from.isAfter(to)) {
             throw new BaseApplicationException(HttpStatus.BAD_REQUEST, "ERROR_INVALID_TIME_PERIOD");
@@ -53,6 +62,8 @@ public class VisitSearchCriteria {
                 .from(from)
                 .to(to)
                 .freeOnly(freeOnly)
+                .page(page)
+                .size(size)
                 .build();
     }
 }

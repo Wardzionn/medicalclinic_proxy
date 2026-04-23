@@ -62,7 +62,7 @@ class VisitClientTest {
         stubFor(get(urlPathEqualTo("/visits"))
                 .willReturn(okJson(body)));
 
-        PageDto<VisitDto> result = visitClient.getVisits(VisitSearchCriteria.forDoctor(1L, true));
+        PageDto<VisitDto> result = visitClient.getVisits(VisitSearchCriteria.forDoctor(1L, true, null, null));
 
         assertThat(result).isNotNull();
         assertThat(result.getContent()).hasSize(1);
@@ -95,7 +95,7 @@ class VisitClientTest {
                         .withHeader("Content-Type", "application/json")
                         .withBody(body)));
 
-        PageDto<VisitDto> result = visitClient.getVisits(VisitSearchCriteria.forPatient(7L));
+        PageDto<VisitDto> result = visitClient.getVisits(VisitSearchCriteria.forPatient(7L, null, null));
 
         assertThat(result).isNotNull();
         assertThat(result.getContent()).isEmpty();
@@ -107,7 +107,7 @@ class VisitClientTest {
         stubFor(get(urlPathEqualTo("/visits"))
                 .willReturn(aResponse().withStatus(404)));
 
-        PageDto<VisitDto> result = visitClient.getVisits(VisitSearchCriteria.forPatient(99L));
+        PageDto<VisitDto> result = visitClient.getVisits(VisitSearchCriteria.forPatient(99L, null, null));
 
         assertThat(result).isNull();
         verify(1, getRequestedFor(urlPathEqualTo("/visits")));

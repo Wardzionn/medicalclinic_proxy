@@ -26,5 +26,5 @@ public interface VisitClient {
     VisitDto bookVisit(@PathVariable("id") Long visitId, @PathVariable("patientId") Long patientId);
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/visits/{id}", produces = "application/json")
-    PageDto<VisitDto> cancelVisit(@PathVariable("id") Long visitId);
+    void cancelVisit(@PathVariable("id") Long visitId);
 }

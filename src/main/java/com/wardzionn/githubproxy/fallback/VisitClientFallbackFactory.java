@@ -30,7 +30,7 @@ public class VisitClientFallbackFactory implements FallbackFactory<VisitClient> 
             }
 
             @Override
-            public PageDto<VisitDto> cancelVisit(Long visitId) {
+            public void cancelVisit(Long visitId) {
                 log.warn("[VisitClient fallback] cancelVisit failed - visitId: {}", visitId, cause);
                 throw propagate(cause);
             }

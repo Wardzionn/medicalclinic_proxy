@@ -10,8 +10,9 @@ import org.springframework.stereotype.Component;
 public class DoctorClientFallbackFactory implements FallbackFactory<DoctorClient> {
     @Override
     public DoctorClient create(Throwable cause) {
-        return specialization -> {
-            log.info("[DoctorClient fallback] getDoctors - specialization: {}", specialization, cause);
+        return (specialization, page, size) -> {
+            log.info("[DoctorClient fallback] getDoctors - specialization: {}, page: {}, size: {}",
+                    specialization, page, size, cause);
             return null;
         };
     }
