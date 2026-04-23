@@ -1,8 +1,11 @@
 package com.wardzionn.githubproxy.exception.handler;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wardzionn.githubproxy.exception.BaseApplicationException;
 import com.wardzionn.githubproxy.exception.ExceptionDto;
 import feign.FeignException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +16,10 @@ import java.time.LocalDateTime;
 
 @Slf4j
 @ControllerAdvice
+@RequiredArgsConstructor
 public class AppExceptionHandler {
+
+    private final ObjectMapper objectMapper;
 
     @ExceptionHandler(BaseApplicationException.class)
     public ResponseEntity<ExceptionDto> handleBaseException(BaseApplicationException ex) {
@@ -28,13 +34,34 @@ public class AppExceptionHandler {
 
     @ExceptionHandler(FeignException.class)
     public ResponseEntity<ExceptionDto> handleFeignException(FeignException ex) {
-        log.error("FeignException: status={}, message={}", ex.status(), ex.getMessage(), ex);
-        return ResponseEntity.status(ex.status()).body(ExceptionDto.builder()
-                .status(ex.status())
-                .error(HttpStatus.valueOf(ex.status()).getReasonPhrase())
-                .message(ex.getMessage())
+        HttpStatus status = HttpStatus.resolve(ex.status());
+        if (status == null) {
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        String message = extractMessage(ex);
+        log.error("FeignException: status={}, message={}", ex.status(), message, ex);
+        return ResponseEntity.status(status).body(ExceptionDto.builder()
+                .status(status.value())
+                .error(status.getReasonPhrase())
+                .message(message)
                 .timestamp(LocalDateTime.now())
                 .build());
+    }
+
+    private String extractMessage(FeignException ex) {
+        String body = ex.contentUTF8();
+        if (body == null || body.isBlank()) {
+            return ex.getMessage();
+        }
+        try {
+            JsonNode node = objectMapper.readTree(body);
+            if (node.hasNonNull("message")) {
+                return node.get("message").asText();
+            }
+            return body;
+        } catch (Exception parseFailure) {
+            return body;
+        }
     }
 
 }

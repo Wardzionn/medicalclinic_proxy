@@ -1,6 +1,6 @@
 package com.wardzionn.githubproxy.configuration;
 
-import com.wardzionn.githubproxy.exception.external.GithubErrorDecoder;
+import com.wardzionn.githubproxy.exception.external.MedicalclinicErrorDecoder;
 import feign.Logger;
 import feign.Retryer;
 import feign.codec.ErrorDecoder;
@@ -17,7 +17,7 @@ public class FeignConfig {
 
     @Bean
     public ErrorDecoder errorDecoder() {
-        return new GithubErrorDecoder();
+        return new MedicalclinicErrorDecoder();
     }
 
     @Bean
