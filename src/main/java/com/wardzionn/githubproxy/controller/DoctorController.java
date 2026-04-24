@@ -1,39 +1,29 @@
+package com.wardzionn.githubproxy.controller;
+
+import com.wardzionn.githubproxy.dto.DoctorDto;
+import com.wardzionn.githubproxy.dto.PageDto;
+import com.wardzionn.githubproxy.service.DoctorService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 @RestController
-@RequestMapping("/doctors")
+@RequestMapping("/doctor")
 @RequiredArgsConstructor
 public class DoctorController {
-
     private final DoctorService doctorService;
 
-    @GetMapping("/{id}/visits")
-    @ResponseStatus(HttpStatus.OK)
-    public List<VisitDto> getDoctorVisits(
-            @PathVariable Long id,
-            @RequestParam(required = false) String status // past | future | all
-    ) {
-        return doctorService.getDoctorVisits(id, status);
-    }
-
-    @GetMapping("/{id}/available-visits")
-    @ResponseStatus(HttpStatus.OK)
-    public List<VisitDto> getAvailableVisits(@PathVariable Long id) {
-        return doctorService.getAvailableVisits(id);
-    }
-
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<DoctorDto> getDoctorsBySpecialization(
-            @RequestParam String specialization
+    public PageDto<DoctorDto> getDoctors(
+            @RequestParam(value = "specialization", required = false) String specialization,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "size", required = false) Integer size
     ) {
-        return doctorService.getDoctorsBySpecialization(specialization);
-    }
-}
-
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<DoctorDto> getDoctorsBySpecialization(
-            @RequestParam String specialization
-    ) {
-        return doctorService.getDoctorsBySpecialization(specialization);
+        return doctorService.getDoctors(specialization, page, size);
     }
 }
